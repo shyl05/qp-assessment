@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=password  
+      # - MYSQL_DATABASE=grocery_booking_db
+      # - MYSQL_USER=root
+      # - MYSQL_PASSWORD=password
+    ports:
+      - "3366:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  express-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
